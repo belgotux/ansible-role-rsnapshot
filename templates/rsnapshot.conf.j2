@@ -1,0 +1,34 @@
+config_version	{{ rsnapshot_version }}
+snapshot_root		{{ item.snapshot_root }}
+no_create_root	{{ rsnapshot_no_create_root }}
+cmd_cp					{{ rsnapshot_cmd_cp }}
+cmd_rm					{{ rsnapshot_cmd_rm }}
+cmd_rsync				{{ rsnapshot_cmd_rsync }}
+cmd_ssh					{{ rsnapshot_cmd_ssh }}
+cmd_logger			{{ rsnapshot_cmd_logger }}
+cmd_du					{{ rsnapshot_cmd_du }}
+verbose					{{ rsnapshot_verbose }}
+loglevel				{{ rsnapshot_loglevel }}
+logfile					{{ rsnapshot_logdir }}/{{ item.name }}.log
+lockfile				{{ rsnapshot_rundir }}/rsnapshot-{{ item.name }}.pid
+{% if rsnapshot_rsync_long_args is defined %}
+rsync_long_args	{{ rsnapshot_rsync_long_args }}
+{% endif %}
+{% if item.one_fs is defined  %}
+one_fs	{{ item.one_fs }}
+{% endif %}
+
+{% if item.retains is defined %}
+{% for retain in item.retains %}
+retain	{{ retain.period_name }}		{{ retain.retention }}
+{% endfor %}
+{% else %}
+retain	daily		{{ rsnapshot_default_daily }}
+retain	weekly	{{ rsnapshot_default_weekly }}
+retain	montly	{{ rsnapshot_default_montly }}
+{% endif %}
+
+{% for backup in item.backups %}
+{{ backup.type }}	{{ backup.src }}	{{ backup.relative_dest }}	{% if backup.options is defined %}{{ backup.options }}{% endif %}
+
+{% endfor %}

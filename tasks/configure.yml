@@ -1,0 +1,36 @@
+---
+- name: Create config directory
+  file:
+    dest: "{{ rsnapshot_config_dir }}"
+    owner: "{{ rsnapshot_user }}"
+    group: root
+    mode: '0755'
+    state: directory
+- name: Create log directory
+  file:
+    dest: "{{ rsnapshot_logdir }}"
+    owner: "{{ rsnapshot_user }}"
+    group: root
+    mode: '0755'
+    state: directory
+
+- name: Configure specific rsnapshot jobs
+  template:
+    src: rsnapshot.conf.j2
+    dest: "{{ rsnapshot_config_dir }}/{{ item.name }}"
+    owner: "{{ rsnapshot_user }}"
+    group: root
+    mode: '0644'
+    backup: yes
+  loop: "{{ rsnapshot_jobs }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Configure cron
+  template:
+    src: cron.j2
+    dest: "{{ rsnapshot_cron_dir }}/rsnapshot"
+    owner: "{{ rsnapshot_user }}"
+    group: root
+    mode: '0644'
+    backup: no

@@ -1,0 +1,8 @@
+SHELL=/bin/bash
+{% for job in rsnapshot_jobs %}
+# {{ job.name }}
+{% for retain in job.retains %}
+{{ retain.cron }}   {{ rsnapshot_user }}   {% if job.run_before is defined %}{{ job.run_before }} &&{% endif %} rsnapshot -c {{ rsnapshot_config_dir }}/{{ job.name }} {{ retain.period_name }} {% if job.run_after is defined %}&& {{ job.run_after }}{% endif %}
+
+{% endfor %}
+{% endfor %}

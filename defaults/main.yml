@@ -1,0 +1,23 @@
+---
+rsnapshot_config_dir: /etc/rsnapshot.conf.d
+rsnapshot_cron_dir: /etc/cron.d
+rsnapshot_user: root
+
+rsnapshot_version: 1.2
+rsnapshot_no_create_root: 1
+rsnapshot_cmd_cp: /bin/cp
+rsnapshot_cmd_rm: /bin/rm
+rsnapshot_cmd_rsync: /usr/bin/rsync
+rsnapshot_cmd_ssh: /usr/bin/ssh
+rsnapshot_cmd_logger: /usr/bin/logger
+rsnapshot_cmd_du: /usr/bin/du
+rsnapshot_verbose: 2
+rsnapshot_loglevel: 3
+rsnapshot_logdir: /var/log/rsnapshot
+rsnapshot_rundir: /var/run
+# rsnapshot_rsync_long_args
+rsnapshot_jobs: []
+
+rsnapshot_default_daily: 7
+rsnapshot_default_weekly: 4
+rsnapshot_default_montly: 6
